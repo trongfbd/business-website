@@ -7,3 +7,4 @@ public/uploads/*
 *.log
 .next/cache
 .next/cache
+.next/cache
