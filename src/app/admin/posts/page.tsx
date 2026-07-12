@@ -16,7 +16,7 @@ export default async function AdminPosts() {
             <Link href="/admin" className="text-gray-500 hover:text-brand-primary text-sm">← Dashboard</Link>
             <h1 className="text-xl font-display font-bold text-brand-dark">Quản Lý Bài Viết</h1>
           </div>
-          <Link href="/admin/posts/new" className="bg-brand-primary text-white px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 transition-colors text-sm">+ Tạo mới</Link>
+          <Link href="/admin/posts/new" className="bg-brand-primary text-white px-5 py-2 rounded-xl font-semibold hover:bg-red-800 transition-colors text-sm">+ Tạo mới</Link>
         </div>
       </header>
       <main className="max-w-7xl mx-auto px-6 py-8">
@@ -48,7 +48,7 @@ export default async function AdminPosts() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2 justify-end">
                       <Link href={`/blog/${post.slug}`} target="_blank" className="text-xs text-gray-500 hover:text-brand-primary">Xem</Link>
-                      <Link href={`/admin/posts/${post.id}`} className="text-xs text-brand-primary hover:text-blue-700 font-medium">Sửa</Link>
+                      <Link href={`/admin/posts/${post.id}`} className="text-xs text-brand-primary hover:text-red-700 font-medium">Sửa</Link>
                     </div>
                   </td>
                 </tr>

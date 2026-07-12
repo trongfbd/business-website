@@ -7,6 +7,7 @@ import Logo from '@/components/ui/Logo'
 
 const NAV_ITEMS = [
   { label: 'Trang Chủ', href: '/' },
+  { label: 'Sản Phẩm', href: '/san-pham' },
   { label: 'Giới Thiệu', href: '/#about' },
   { label: 'Dịch Vụ', href: '/#services', children: [
     { label: 'Dịch Vụ 1', href: '/services/1' },
@@ -46,7 +47,7 @@ export default function Header({ config }: { config: SiteConfig }) {
               <div key={item.label} className="relative group">
                 {item.children ? (
                   <button
-                    className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-brand-primary font-medium transition-colors rounded-lg hover:bg-blue-50"
+                    className="flex items-center gap-1 px-4 py-2 text-gray-700 hover:text-brand-primary font-medium transition-colors rounded-lg hover:bg-red-50"
                     onMouseEnter={() => setActiveDropdown(item.label)}
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
@@ -54,7 +55,7 @@ export default function Header({ config }: { config: SiteConfig }) {
                     <ChevronDown className="w-4 h-4" />
                   </button>
                 ) : (
-                  <Link href={item.href} className="px-4 py-2 text-gray-700 hover:text-brand-primary font-medium transition-colors rounded-lg hover:bg-blue-50 block">
+                  <Link href={item.href} className="px-4 py-2 text-gray-700 hover:text-brand-primary font-medium transition-colors rounded-lg hover:bg-red-50 block">
                     {item.label}
                   </Link>
                 )}
@@ -65,7 +66,7 @@ export default function Header({ config }: { config: SiteConfig }) {
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
                     {item.children.map((child) => (
-                      <Link key={child.label} href={child.href} className="block px-4 py-3 text-gray-700 hover:text-brand-primary hover:bg-blue-50 first:rounded-t-xl last:rounded-b-xl transition-colors">
+                      <Link key={child.label} href={child.href} className="block px-4 py-3 text-gray-700 hover:text-brand-primary hover:bg-red-50 first:rounded-t-xl last:rounded-b-xl transition-colors">
                         {child.label}
                       </Link>
                     ))}

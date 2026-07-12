@@ -41,7 +41,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { categ
           {/* Search */}
           <form className="mb-8 flex gap-3">
             <input name="q" defaultValue={searchParams.q} placeholder="Tìm kiếm bài viết..." className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary" />
-            <button type="submit" className="bg-brand-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">Tìm</button>
+            <button type="submit" className="bg-brand-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-800 transition-colors">Tìm</button>
           </form>
 
           {/* Categories */}
@@ -75,7 +75,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { categ
                   )}
                   <div className="p-6">
                     {post.category && (
-                      <span className="inline-block bg-blue-100 text-brand-primary text-xs font-semibold px-3 py-1 rounded-full mb-3">{post.category}</span>
+                      <span className="inline-block bg-red-50 text-brand-primary text-xs font-semibold px-3 py-1 rounded-full mb-3">{post.category}</span>
                     )}
                     <h2 className="text-lg font-bold text-brand-dark mb-2 line-clamp-2 group-hover:text-brand-primary transition-colors">
                       <Link href={`/blog/${post.slug}`}>{post.title}</Link>

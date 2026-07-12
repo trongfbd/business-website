@@ -14,6 +14,29 @@
   .container { @apply max-w-7xl mx-auto; }
 }
 
+/* Styling thủ công cho nội dung Markdown render ra HTML (blog, mô tả sản phẩm).
+   Không phụ thuộc gói @tailwindcss/typography để tránh phải cài thêm package. */
+.prose {
+  color: theme('colors.gray.700');
+  line-height: 1.75;
+}
+.prose h1, .prose h2, .prose h3 { @apply font-display font-bold text-brand-dark mt-8 mb-4; }
+.prose h1 { @apply text-2xl; }
+.prose h2 { @apply text-xl; }
+.prose h3 { @apply text-lg; }
+.prose p { @apply mb-4; }
+.prose ul { @apply list-disc pl-6 mb-4 space-y-1; }
+.prose ol { @apply list-decimal pl-6 mb-4 space-y-1; }
+.prose a { @apply text-brand-primary underline hover:no-underline; }
+.prose strong { @apply font-semibold text-brand-dark; }
+.prose img { @apply rounded-xl my-4; }
+.prose code { @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm; }
+.prose pre { @apply bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto mb-4; }
+.prose blockquote { @apply border-l-4 border-brand-primary/30 pl-4 italic text-gray-600 my-4; }
+.prose table { @apply w-full border-collapse mb-4; }
+.prose th, .prose td { @apply border border-gray-200 px-3 py-2 text-left; }
+.prose-red a { @apply text-brand-primary; }
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }

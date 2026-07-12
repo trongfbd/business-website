@@ -4,7 +4,10 @@ import { getSiteConfig } from '@/lib/config'
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getSiteConfig()
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  const rawUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  // Đảm bảo luôn có https:// để tránh lỗi "Invalid URL" khi Railway
+  // inject domain không có protocol (vd: "xxx.up.railway.app")
+  const baseUrl = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`
   return {
     metadataBase: new URL(baseUrl),
     title: { default: config.companyName, template: `%s | ${config.companyName}` },

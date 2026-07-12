@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getDb } from '@/lib/db'
-import { getSiteConfig } from '@/lib/config'
+import { getSiteConfig, getBaseUrl } from '@/lib/config'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { DesktopContactHub, MobileContactBar } from '@/components/contact/OmnichannelHub'
@@ -33,6 +33,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const htmlContent = marked(post.content || '')
   const faq = post.faq ? JSON.parse(post.faq) : []
   const related = db.prepare('SELECT id, title, slug, thumbnail, created_at FROM posts WHERE status = ? AND id != ? AND category = ? LIMIT 3').all('published', post.id, post.category) as Partial<Post>[]
+  const baseUrl = getBaseUrl()
 
   return (
     <>
@@ -43,12 +44,12 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         author={post.author}
         datePublished={post.createdAt}
         dateModified={post.updatedAt}
-        baseUrl={process.env.NEXT_PUBLIC_BASE_URL || 'https://yoursite.com'}
+        baseUrl={baseUrl}
       />
       <FAQSchema faqs={faq} />
       <BreadcrumbSchema
         items={[{ name: 'Trang chủ', url: '/' }, { name: 'Blog', url: '/blog' }, { name: post.title, url: `/blog/${post.slug}` }]}
-        baseUrl={process.env.NEXT_PUBLIC_BASE_URL || 'https://yoursite.com'}
+        baseUrl={baseUrl}
       />
       <Header config={config} />
       <main className="pt-24 pb-16 bg-gray-50 min-h-screen">
@@ -69,7 +70,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           )}
 
           <header className="mb-8">
-            {post.category && <span className="inline-block bg-blue-100 text-brand-primary text-sm font-semibold px-3 py-1 rounded-full mb-4">{post.category}</span>}
+            {post.category && <span className="inline-block bg-red-50 text-brand-primary text-sm font-semibold px-3 py-1 rounded-full mb-4">{post.category}</span>}
             <h1 className="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">{post.title}</h1>
             <div className="flex items-center gap-4 text-sm text-gray-500">
               <span>Bởi <strong>{post.author}</strong></span>
@@ -80,7 +81,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </div>
           </header>
 
-          <div className="bg-white rounded-2xl p-8 shadow-sm mb-8 prose prose-blue max-w-none" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          <div className="bg-white rounded-2xl p-8 shadow-sm mb-8 prose prose-red max-w-none" dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
           {/* FAQ */}
           {faq.length > 0 && (

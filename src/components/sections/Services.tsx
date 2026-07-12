@@ -43,7 +43,7 @@ export default function Services({ config }: { config: SiteConfig }) {
         <div className="text-center">
           <a
             href={`tel:${config.hotline}`}
-            className="inline-flex items-center gap-2 bg-brand-primary hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all transform hover:scale-105"
+            className="inline-flex items-center gap-2 bg-brand-primary hover:bg-red-800 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all transform hover:scale-105"
           >
             Gọi ngay để được tư vấn miễn phí
             <ArrowRight className="w-5 h-5" />

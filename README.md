@@ -98,11 +98,29 @@ scripts/
 
 Truy cập `/admin/login`, sau khi đăng nhập sẽ thấy:
 
-- **Dashboard**: tổng số bài viết, lượt xem, bài nháp/đã đăng, top bài viết
+- **Dashboard**: tổng số bài viết/sản phẩm, lượt xem, bài nháp/đã đăng, top bài viết
 - **Quản lý bài viết** (`/admin/posts`): danh sách, sửa, xóa
 - **Tạo bài viết mới** (`/admin/posts/new`): nhập tiêu đề, mô tả, nội dung Markdown, ảnh đại diện (upload trực tiếp), Meta Title/Description/Keywords cho SEO, danh mục, tags, FAQ (định dạng JSON), trạng thái (nháp/xuất bản)
 
 Bài viết được lưu bằng **Markdown** trong SQLite, hiển thị ở `/blog/[slug]` kèm schema Article + FAQ tự động cho SEO.
+
+### Quản lý Sản phẩm
+
+- **Danh sách sản phẩm** (`/admin/products`): xem nhanh ảnh đại diện, danh mục, giá, trạng thái, đánh dấu nổi bật
+- **Thêm/sửa sản phẩm** (`/admin/products/new`, `/admin/products/[id]`):
+  - Tên, mô tả ngắn, mô tả chi tiết (Markdown)
+  - **Upload nhiều ảnh cùng lúc** — ảnh đầu tiên tự động là ảnh đại diện, có thể bấm ★ để đổi ảnh đại diện hoặc ✕ để xóa từng ảnh
+  - Danh mục (gõ tự do, dùng để lọc ở trang `/san-pham`)
+  - Giá (VNĐ) — **để trống sẽ tự hiển thị "Liên hệ báo giá"** thay vì giá 0đ
+  - Thứ tự hiển thị (số nhỏ hơn hiện trước)
+  - Trạng thái: Bản nháp (ẩn khỏi site) / Hiển thị công khai
+  - Checkbox **Sản phẩm nổi bật** — các sản phẩm này được ưu tiên hiển thị ở trang chủ (mục "Thiết Bị PCCC Nổi Bật")
+  - SEO riêng từng sản phẩm: Meta Title, Meta Description, Keywords
+
+Sản phẩm hiển thị công khai tại:
+- `/san-pham` — toàn bộ sản phẩm dạng lưới, lọc theo danh mục, phân trang 12 sản phẩm/trang
+- `/san-pham/[slug]` — trang chi tiết với gallery ảnh, mô tả Markdown, sản phẩm liên quan cùng danh mục, schema Product cho SEO
+- Trang chủ — tự động lấy tối đa 6 sản phẩm nổi bật; nếu chưa đủ 6 sản phẩm nổi bật, hệ thống tự bổ sung thêm sản phẩm mới nhất cho đủ
 
 ### Đổi mật khẩu admin
 
@@ -121,12 +139,13 @@ console.log('Đã đổi mật khẩu!');
 
 ## 6. SEO đã tích hợp sẵn
 
-- `sitemap.xml` và `robots.txt` tự sinh từ danh sách bài viết published
-- Schema JSON-LD: Organization, LocalBusiness, WebSite, Article, FAQPage, BreadcrumbList
-- Meta Title/Description/Keywords tùy chỉnh theo từng bài viết
+- `sitemap.xml` và `robots.txt` tự sinh từ danh sách bài viết và **sản phẩm** đã published
+- Schema JSON-LD: Organization, LocalBusiness, WebSite, Article, FAQPage, BreadcrumbList, **Product** (giá, tình trạng còn hàng)
+- Meta Title/Description/Keywords tùy chỉnh theo từng bài viết và từng sản phẩm
 - Open Graph + Twitter Card tự động lấy từ `config.json`
 
 ## 7. Analytics
+
 
 Các sự kiện click được tự động gửi tới bảng `analytics` trong SQLite và (nếu có `gaId` trong config) tới Google Analytics 4: `call_click`, `zalo_click`, `messenger_click`, `tiktok_click`, `email_click`, `map_click`.
 

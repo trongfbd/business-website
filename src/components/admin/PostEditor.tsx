@@ -80,7 +80,7 @@ export default function PostEditor({ post: initialPost, isNew }: Props) {
             {msg && <span className="text-sm">{msg}</span>}
             {!isNew && <button onClick={deletePost} className="text-red-500 hover:text-red-700 text-sm px-3 py-2">Xóa</button>}
             <button onClick={() => save('draft')} disabled={saving} className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors">Lưu nháp</button>
-            <button onClick={() => save('published')} disabled={saving} className="bg-brand-primary hover:bg-blue-700 text-white px-5 py-2 rounded-xl text-sm font-semibold transition-colors">Xuất bản</button>
+            <button onClick={() => save('published')} disabled={saving} className="bg-brand-primary hover:bg-red-800 text-white px-5 py-2 rounded-xl text-sm font-semibold transition-colors">Xuất bản</button>
           </div>
         </div>
       </header>

@@ -58,7 +58,7 @@ export default function AdminLogin() {
               required
             />
           </div>
-          <button type="submit" disabled={loading} className="w-full bg-brand-primary hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition-colors disabled:opacity-60">
+          <button type="submit" disabled={loading} className="w-full bg-brand-primary hover:bg-red-800 text-white py-3 rounded-xl font-semibold transition-colors disabled:opacity-60">
             {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>
         </form>

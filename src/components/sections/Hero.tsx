@@ -4,7 +4,7 @@ import { SiteConfig } from '@/types'
 
 export default function Hero({ config }: { config: SiteConfig }) {
   return (
-    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-brand-dark via-blue-900 to-brand-primary overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-brand-dark via-red-950 to-brand-primary overflow-hidden pt-20">
       {/* Background decoration */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-10 w-72 h-72 bg-brand-accent/10 rounded-full blur-3xl animate-pulse-slow" />
@@ -27,7 +27,7 @@ export default function Hero({ config }: { config: SiteConfig }) {
               </span>{' '}
               Cho Doanh Nghiệp
             </h1>
-            <p className="text-lg text-blue-100 mb-8 leading-relaxed max-w-xl">
+            <p className="text-lg text-red-100 mb-8 leading-relaxed max-w-xl">
               {config.description} Hơn 10 năm kinh nghiệm, cam kết chất lượng, giá cả cạnh tranh.
             </p>
 
@@ -36,7 +36,7 @@ export default function Hero({ config }: { config: SiteConfig }) {
               {[['500+', 'Khách hàng'], ['10+', 'Năm kinh nghiệm'], ['99%', 'Hài lòng']].map(([num, label]) => (
                 <div key={label}>
                   <div className="text-2xl font-bold text-brand-accent">{num}</div>
-                  <div className="text-blue-200 text-sm">{label}</div>
+                  <div className="text-red-200 text-sm">{label}</div>
                 </div>
               ))}
             </div>
@@ -87,15 +87,15 @@ export default function Hero({ config }: { config: SiteConfig }) {
                   <div className="text-center text-white">
                     <div className="text-6xl mb-4">🏢</div>
                     <div className="font-bold text-xl">{config.companyName.split(' ').slice(-2).join(' ')}</div>
-                    <div className="text-blue-200 text-sm mt-2">{config.slogan}</div>
+                    <div className="text-red-200 text-sm mt-2">{config.slogan}</div>
                   </div>
                 </div>
               </div>
               {/* Floating card 2 */}
               <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-2xl animate-float z-10" style={{animationDelay:'1.5s'}}>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-blue-600" />
+                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-brand-primary" />
                   </div>
                   <div>
                     <div className="font-semibold text-gray-800 text-sm">{config.hotlineDisplay}</div>

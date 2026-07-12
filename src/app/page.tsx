@@ -1,8 +1,9 @@
-import { getSiteConfig } from '@/lib/config'
+import { getSiteConfig, getBaseUrl } from '@/lib/config'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { DesktopContactHub, MobileContactBar } from '@/components/contact/OmnichannelHub'
 import Hero from '@/components/sections/Hero'
+import FeaturedProducts from '@/components/sections/FeaturedProducts'
 import Services from '@/components/sections/Services'
 import About from '@/components/sections/About'
 import Testimonials from '@/components/sections/Testimonials'
@@ -12,7 +13,7 @@ import { OrganizationSchema, LocalBusinessSchema, WebsiteSchema } from '@/compon
 
 export default async function HomePage() {
   const config = await getSiteConfig()
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yoursite.com'
+  const baseUrl = getBaseUrl()
   return (
     <>
       <OrganizationSchema config={config} baseUrl={baseUrl} />
@@ -21,6 +22,7 @@ export default async function HomePage() {
       <Header config={config} />
       <main>
         <Hero config={config} />
+        <FeaturedProducts />
         <About />
         <Services config={config} />
         <Testimonials />

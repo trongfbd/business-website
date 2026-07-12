@@ -16,6 +16,13 @@ export async function getSiteConfig(): Promise<SiteConfig> {
   }
 }
 
+// Đảm bảo BASE_URL luôn có protocol (https://)
+// Railway đôi khi inject domain không có protocol vào biến môi trường
+export function getBaseUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  return raw.startsWith('http') ? raw : `https://${raw}`
+}
+
 export function getDefaultConfig(): SiteConfig {
   return {
     companyName: 'Công Ty ABC',

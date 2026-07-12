@@ -88,3 +88,26 @@ export function FAQSchema({ faqs }: { faqs: { question: string; answer: string }
   }
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 }
+
+export function ProductSchema({ name, description, image, price, sku, baseUrl }: {
+  name: string; description: string; image: string[]; price: number | null; sku: string; baseUrl: string
+}) {
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    image: image.length ? image : undefined,
+    sku,
+  }
+  if (price !== null) {
+    schema.offers = {
+      '@type': 'Offer',
+      priceCurrency: 'VND',
+      price,
+      availability: 'https://schema.org/InStock',
+      url: `${baseUrl}/san-pham/${sku}`,
+    }
+  }
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+}

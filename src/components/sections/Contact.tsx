@@ -20,7 +20,7 @@ export default function Contact({ config }: { config: SiteConfig }) {
                 { icon: <MapPin />, label: 'Địa chỉ', value: config.address, href: config.googleBusinessUrl },
                 { icon: <Clock />, label: 'Giờ làm việc', value: config.workingHours, href: null },
               ].map((item) => (
-                <div key={item.label} className="flex items-start gap-4 p-5 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
+                <div key={item.label} className="flex items-start gap-4 p-5 bg-gray-50 rounded-xl hover:bg-red-50 transition-colors">
                   <div className="text-brand-primary w-6 h-6 mt-0.5">{item.icon}</div>
                   <div>
                     <div className="text-sm text-gray-500 mb-1">{item.label}</div>

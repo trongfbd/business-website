@@ -36,6 +36,25 @@ function initSchema(database: Database.Database) {
       created_at TEXT DEFAULT (datetime('now','localtime')),
       updated_at TEXT DEFAULT (datetime('now','localtime'))
     );
+    CREATE TABLE IF NOT EXISTS products (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      meta_title TEXT,
+      meta_description TEXT,
+      keywords TEXT,
+      images TEXT DEFAULT '[]',
+      short_description TEXT,
+      description TEXT,
+      category TEXT,
+      price REAL,
+      status TEXT DEFAULT 'draft' CHECK(status IN ('draft','published')),
+      featured INTEGER DEFAULT 0,
+      view_count INTEGER DEFAULT 0,
+      sort_order INTEGER DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now','localtime')),
+      updated_at TEXT DEFAULT (datetime('now','localtime'))
+    );
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT UNIQUE NOT NULL,
@@ -54,6 +73,10 @@ function initSchema(database: Database.Database) {
     );
     CREATE INDEX IF NOT EXISTS idx_posts_slug ON posts(slug);
     CREATE INDEX IF NOT EXISTS idx_posts_status ON posts(status);
+    CREATE INDEX IF NOT EXISTS idx_products_slug ON products(slug);
+    CREATE INDEX IF NOT EXISTS idx_products_status ON products(status);
+    CREATE INDEX IF NOT EXISTS idx_products_featured ON products(featured);
+    CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
     CREATE INDEX IF NOT EXISTS idx_analytics_event ON analytics(event_type);
   `)
 }

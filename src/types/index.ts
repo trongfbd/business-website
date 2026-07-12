@@ -18,6 +18,26 @@ export interface Post {
   updatedAt: string
 }
 
+export interface Product {
+  id: number
+  name: string
+  slug: string
+  metaTitle: string
+  metaDescription: string
+  keywords: string
+  images: string // JSON.stringify(string[])
+  shortDescription: string
+  description: string
+  category: string
+  price: number | null
+  status: 'draft' | 'published'
+  featured: number // 0 | 1 (SQLite boolean)
+  viewCount: number
+  sortOrder: number
+  createdAt: string
+  updatedAt: string
+}
+
 export interface SiteConfig {
   companyName: string
   slogan: string
