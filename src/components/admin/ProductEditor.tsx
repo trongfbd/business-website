@@ -34,6 +34,7 @@ export default function ProductEditor({ product: initialProduct, isNew }: Props)
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
 
   function set<K extends keyof typeof product>(key: K, value: typeof product[K]) {
     setProduct((prev) => ({ ...prev, [key]: value }))
@@ -41,13 +42,22 @@ export default function ProductEditor({ product: initialProduct, isNew }: Props)
 
   async function uploadImages(files: FileList) {
     setUploading(true)
+    setUploadError('')
     const uploaded: string[] = []
     for (const file of Array.from(files)) {
       const fd = new FormData()
       fd.append('file', file)
-      const res = await fetch('/api/upload', { method: 'POST', body: fd })
-      const data = await res.json()
-      if (data.url) uploaded.push(data.url)
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: fd })
+        const data = await res.json()
+        if (data.url) {
+          uploaded.push(data.url)
+        } else {
+          setUploadError(`❌ Lỗi upload "${file.name}": ${data.error || 'Không xác định'}`)
+        }
+      } catch {
+        setUploadError(`❌ Không kết nối được server khi upload "${file.name}"`)
+      }
     }
     setImages((prev) => [...prev, ...uploaded])
     setUploading(false)
@@ -164,8 +174,9 @@ export default function ProductEditor({ product: initialProduct, isNew }: Props)
               )}
               <label className="block w-full text-center bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl py-4 cursor-pointer hover:bg-gray-100 transition-colors text-sm text-gray-500">
                 {uploading ? 'Đang tải ảnh...' : '📎 Tải lên ảnh (chọn nhiều ảnh cùng lúc)'}
-                <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files && e.target.files.length > 0 && uploadImages(e.target.files)} />
+                <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { setUploadError(''); e.target.files && e.target.files.length > 0 && uploadImages(e.target.files) }} />
               </label>
+              {uploadError && <p className="text-red-500 text-xs mt-2">{uploadError}</p>}
             </div>
           </div>
 

@@ -28,6 +28,7 @@ export default function PostEditor({ post: initialPost, isNew }: Props) {
   const [saving, setSaving] = useState(false)
   const [msg, setMsg] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
 
   function set(key: string, value: string) {
     setPost(prev => ({ ...prev, [key]: value }))
@@ -35,12 +36,21 @@ export default function PostEditor({ post: initialPost, isNew }: Props) {
 
   async function uploadImage(file: File) {
     setUploading(true)
+    setUploadError('')
     const fd = new FormData()
     fd.append('file', file)
-    const res = await fetch('/api/upload', { method: 'POST', body: fd })
-    const data = await res.json()
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (data.url) {
+        set('thumbnail', data.url)
+      } else {
+        setUploadError(`❌ ${data.error || 'Upload thất bại'}`)
+      }
+    } catch {
+      setUploadError('❌ Không kết nối được server')
+    }
     setUploading(false)
-    if (data.url) set('thumbnail', data.url)
   }
 
   async function save(status?: string) {
@@ -124,8 +134,9 @@ export default function PostEditor({ post: initialPost, isNew }: Props) {
               <div className="mt-3">
                 <label className="block w-full text-center bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl py-3 cursor-pointer hover:bg-gray-100 transition-colors text-sm text-gray-500">
                   {uploading ? 'Đang tải...' : '📎 Upload ảnh'}
-                  <input type="file" accept="image/*" className="hidden" onChange={e => e.target.files?.[0] && uploadImage(e.target.files[0])} />
+                  <input type="file" accept="image/*" className="hidden" onChange={e => { setUploadError(''); e.target.files?.[0] && uploadImage(e.target.files[0]) }} />
                 </label>
+                {uploadError && <p className="text-red-500 text-xs mt-2">{uploadError}</p>}
               </div>
             </div>
 
