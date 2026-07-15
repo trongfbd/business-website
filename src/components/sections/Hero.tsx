@@ -18,7 +18,7 @@ export default function Hero({ config }: { config: SiteConfig }) {
           <div>
             <div className="inline-flex items-center gap-2 bg-brand-accent/20 border border-brand-accent/30 text-brand-accent px-4 py-2 rounded-full text-sm font-semibold mb-6">
               <span className="w-2 h-2 bg-brand-accent rounded-full animate-pulse" />
-              Dịch vụ uy tín hàng đầu
+              {config.slogan}
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6">
               An Toàn Bắt Đầu Từ{' '}
