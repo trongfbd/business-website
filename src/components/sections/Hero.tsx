@@ -42,9 +42,9 @@ export default function Hero({ config }: { config: SiteConfig }) {
               </div>
 
               {/* H1 */}
-              <h1 className="font-display font-black uppercase leading-[1.05] mb-4">
-                <span className="text-white text-4xl md:text-5xl block">Giải Pháp PCCC</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-4xl md:text-5xl block">
+              <h1 className="font-display font-black uppercase mb-4">
+                <span className="text-white text-5xl md:text-6xl block mb-2">Giải Pháp PCCC</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-4xl md:text-5xl block leading-tight">
                   Cho Công Trình An Toàn
                 </span>
               </h1>
