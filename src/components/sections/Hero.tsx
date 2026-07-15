@@ -1,103 +1,167 @@
 'use client'
-import { Phone, ArrowRight, MessageCircle } from 'lucide-react'
+import { Phone, Shield, FileText, Users, Trophy, Star, ShieldCheck, Lightbulb, Wrench, Headphones, ArrowRight } from 'lucide-react'
 import { SiteConfig } from '@/types'
+
+const SERVICES = ['Tư Vấn', 'Thiết Kế', 'Thi Công', 'Bảo Trì']
+
+const STATS = [
+  { icon: <Users className="w-6 h-6 text-brand-accent" />, value: '500+', label: 'Khách hàng tin tưởng' },
+  { icon: <Trophy className="w-6 h-6 text-brand-accent" />, value: '10+', label: 'Năm kinh nghiệm trong ngành' },
+  { icon: <Star className="w-6 h-6 text-brand-accent" />, value: '99%', label: 'Khách hàng hài lòng' },
+]
+
+const FEATURES = [
+  { icon: <ShieldCheck className="w-6 h-6" />, title: 'Đạt chuẩn PCCC', sub: 'Theo quy định hiện hành' },
+  { icon: <Lightbulb className="w-6 h-6" />, title: 'Giải pháp tối ưu', sub: 'Phù hợp mọi công trình' },
+  { icon: <Wrench className="w-6 h-6" />, title: 'Thi công chuyên nghiệp', sub: 'Đúng tiến độ, đúng kỹ thuật' },
+  { icon: <Headphones className="w-6 h-6" />, title: 'Bảo trì tận tâm', sub: 'Hỗ trợ nhanh chóng 24/7' },
+]
 
 export default function Hero({ config }: { config: SiteConfig }) {
   return (
-    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-brand-dark via-red-950 to-brand-primary overflow-hidden pt-20">
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-brand-accent/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-brand-secondary/10 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay:'1s'}} />
-        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-5" />
+    <section className="relative flex flex-col bg-gradient-to-br from-brand-dark via-red-950 to-brand-primary overflow-hidden pt-20">
+      {/* Background decorations */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-red-800/30 rounded-full blur-3xl" />
+        {/* Large logo watermark */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-[560px] h-[560px] opacity-[0.07]">
+          <img src="/images/logo.png" alt="" className="w-full h-full object-contain" />
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Text Content */}
-          <div>
-            <div className="inline-flex items-center gap-2 bg-brand-accent/20 border border-brand-accent/30 text-brand-accent px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <span className="w-2 h-2 bg-brand-accent rounded-full animate-pulse" />
-              Dịch vụ uy tín hàng đầu
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-3">
-              An Toàn Bắt Đầu Từ{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300">
-                Giải Pháp Đúng
-              </span>
-            </h1>
-            <p className="text-red-200/80 italic text-base mb-6">{config.slogan}</p>
-            <p className="text-lg text-red-100 mb-8 leading-relaxed max-w-xl text-justify">
-              {config.description}
-            </p>
+      {/* Main content */}
+      <div className="flex-1 flex items-center">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-10 items-center py-16">
 
-            {/* Stats */}
-            <div className="flex gap-8 mb-8">
-              {[['500+', 'Khách hàng'], ['10+', 'Năm kinh nghiệm'], ['99%', 'Hài lòng']].map(([num, label]) => (
-                <div key={label}>
-                  <div className="text-2xl font-bold text-brand-accent">{num}</div>
-                  <div className="text-red-200 text-sm">{label}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4">
-              <a
-                href={`tel:${config.hotline}`}
-                className="flex items-center gap-2 bg-brand-accent hover:bg-amber-500 text-white px-7 py-4 rounded-xl font-bold text-lg shadow-xl transition-all transform hover:scale-105"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && (window as any).gtag)
-                    (window as any).gtag('event', 'call_click', {event_category:'hero'})
-                }}
-              >
-                <Phone className="w-5 h-5" />
-                Gọi Ngay
-              </a>
-              <a
-                href={config.zalo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white px-7 py-4 rounded-xl font-bold text-lg transition-all backdrop-blur-sm"
-              >
-                <MessageCircle className="w-5 h-5" />
-                {config.ctaText}
-              </a>
-            </div>
-          </div>
-
-          {/* Hero Image */}
-          <div className="hidden lg:flex items-center justify-center">
-            <div className="relative w-full max-w-md">
-              {/* Floating card 1 */}
-              <div className="absolute -top-4 -left-4 bg-white rounded-2xl p-4 shadow-2xl animate-float z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <span className="text-green-600 text-xl">✓</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-800 text-sm">Tư vấn miễn phí</div>
-                    <div className="text-gray-500 text-xs">24/7 hỗ trợ</div>
-                  </div>
-                </div>
+            {/* ── Left: Text ── */}
+            <div>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 border border-white/25 bg-white/8 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                <Shield className="w-4 h-4 text-brand-accent flex-shrink-0" />
+                Đơn vị PCCC uy tín hàng đầu
               </div>
-              {/* Main image */}
-              <div className="bg-white rounded-3xl p-6 shadow-2xl mt-6 mb-6">
-                <img
-                  src="/images/hero-pccc.jpg"
-                  alt="Thiết bị phòng cháy chữa cháy chuyên nghiệp"
-                  className="w-full aspect-square object-contain rounded-xl"
-                />
+
+              {/* H1 */}
+              <h1 className="font-display font-black uppercase leading-none mb-4">
+                <span className="text-white text-5xl md:text-6xl lg:text-7xl block">Giải Pháp PCCC</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-5xl md:text-6xl lg:text-7xl block">
+                  Cho Công Trình
+                </span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-5xl md:text-6xl lg:text-7xl block">
+                  An Toàn
+                </span>
+              </h1>
+
+              {/* Slogan */}
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-brand-accent text-3xl font-serif leading-none select-none">&ldquo;</span>
+                <p className="text-white/80 italic text-sm md:text-base">{config.slogan}</p>
+                <span className="text-brand-accent text-3xl font-serif leading-none select-none">&rdquo;</span>
+                <div className="flex-1 h-px bg-gradient-to-r from-brand-accent/60 to-transparent hidden md:block" />
               </div>
-              {/* Floating card 2 */}
-              <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-2xl animate-float z-10" style={{animationDelay:'1.5s'}}>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-brand-primary" />
-                  </div>
+
+              {/* Service pills */}
+              <div className="inline-flex items-center border border-white/25 rounded-full px-4 py-2 mb-6">
+                {SERVICES.map((s, i) => (
+                  <span key={s} className="flex items-center text-white/90 text-xs font-bold uppercase tracking-widest">
+                    <span className="text-brand-accent mx-2">•</span>
+                    {s}
+                    {i === SERVICES.length - 1 && <span className="text-brand-accent ml-2">•</span>}
+                  </span>
+                ))}
+              </div>
+
+              {/* Description */}
+              <p className="text-red-100/85 text-base leading-relaxed mb-8 max-w-lg">
+                {config.description}
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-4 mb-10">
+                <a
+                  href={`tel:${config.hotline}`}
+                  className="flex items-center gap-3 bg-brand-accent hover:bg-amber-500 text-white px-6 py-3 rounded-xl shadow-xl transition-all hover:scale-105"
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && (window as any).gtag)
+                      (window as any).gtag('event', 'call_click', { event_category: 'hero' })
+                  }}
+                >
+                  <Phone className="w-5 h-5 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold text-gray-800 text-sm">{config.hotlineDisplay}</div>
-                    <div className="text-gray-500 text-xs">Hotline 24/7</div>
+                    <div className="text-sm font-black uppercase">Gọi Ngay</div>
+                    <div className="text-xs opacity-85">Tư vấn miễn phí</div>
+                  </div>
+                </a>
+                <a
+                  href={config.zalo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/30 text-white px-6 py-3 rounded-xl transition-all backdrop-blur-sm"
+                >
+                  <FileText className="w-5 h-5 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm font-black uppercase">Nhận Báo Giá</div>
+                    <div className="text-xs opacity-75">Báo giá nhanh chóng</div>
+                  </div>
+                </a>
+                <a
+                  href="#products"
+                  className="flex items-center gap-1.5 text-white/75 hover:text-white text-sm font-semibold transition-colors"
+                >
+                  Xem dịch vụ <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+
+              {/* Stats */}
+              <div className="flex gap-8">
+                {STATS.map((s) => (
+                  <div key={s.label} className="flex items-center gap-3">
+                    {s.icon}
+                    <div>
+                      <div className="text-2xl font-black text-brand-accent leading-none">{s.value}</div>
+                      <div className="text-red-200 text-xs leading-tight mt-0.5">{s.label}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Right: Image ── */}
+            <div className="hidden lg:flex items-center justify-center">
+              <div className="relative w-full max-w-[400px]">
+                {/* Floating card top */}
+                <div className="absolute -top-4 left-4 bg-white rounded-2xl px-4 py-3 shadow-2xl animate-float z-10">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-green-600 font-bold text-base">✓</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-800 text-sm">Tư vấn miễn phí</div>
+                      <div className="text-gray-400 text-xs">Hỗ trợ 24/7</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main image card */}
+                <div className="bg-white rounded-3xl p-6 shadow-2xl mt-8 mb-8">
+                  <img
+                    src="/images/hero-pccc.jpg"
+                    alt="Thiết bị phòng cháy chữa cháy chuyên nghiệp"
+                    className="w-full aspect-square object-contain rounded-xl"
+                  />
+                </div>
+
+                {/* Floating card bottom */}
+                <div className="absolute -bottom-4 right-4 bg-white rounded-2xl px-4 py-3 shadow-2xl animate-float z-10" style={{ animationDelay: '1.5s' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-4 h-4 text-brand-primary" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-800 text-sm">{config.hotlineDisplay}</div>
+                      <div className="text-gray-400 text-xs">Hotline 24/7</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -106,11 +170,25 @@ export default function Hero({ config }: { config: SiteConfig }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60">
-        <span className="text-xs">Cuộn xuống</span>
-        <div className="w-5 h-8 border-2 border-white/30 rounded-full flex items-start justify-center p-1">
-          <div className="w-1 h-2 bg-white/60 rounded-full animate-bounce" />
+      {/* ── Bottom feature bar ── */}
+      <div className="relative z-10 bg-white border-t border-gray-100 shadow-lg">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {FEATURES.map((f, i) => (
+              <div
+                key={f.title}
+                className={`flex items-center gap-4 py-5 px-6 ${i < 3 ? 'border-r border-gray-100' : ''}`}
+              >
+                <div className="w-11 h-11 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-brand-primary flex-shrink-0">
+                  {f.icon}
+                </div>
+                <div>
+                  <div className="text-brand-dark font-bold text-sm">{f.title}</div>
+                  <div className="text-gray-400 text-xs">{f.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
