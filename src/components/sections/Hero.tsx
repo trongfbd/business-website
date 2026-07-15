@@ -65,7 +65,7 @@ export default function Hero({ config }: { config: SiteConfig }) {
             </div>
           </div>
 
-          {/* Illustration / Hero Image */}
+          {/* Hero Image */}
           <div className="hidden lg:flex items-center justify-center">
             <div className="relative w-full max-w-md">
               {/* Floating card 1 */}
@@ -80,15 +80,13 @@ export default function Hero({ config }: { config: SiteConfig }) {
                   </div>
                 </div>
               </div>
-              {/* Main illustration */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-                <div className="aspect-square bg-gradient-to-br from-brand-primary/50 to-brand-secondary/50 rounded-2xl flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <div className="text-6xl mb-4">🏢</div>
-                    <div className="font-bold text-xl">{config.companyName.split(' ').slice(-2).join(' ')}</div>
-                    <div className="text-red-200 text-sm mt-2">{config.slogan}</div>
-                  </div>
-                </div>
+              {/* Main image */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-3 border border-white/20 shadow-2xl">
+                <img
+                  src="/images/hero-pccc.jpg"
+                  alt="Thiết bị phòng cháy chữa cháy chuyên nghiệp"
+                  className="w-full aspect-square object-cover rounded-2xl"
+                />
               </div>
               {/* Floating card 2 */}
               <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-2xl animate-float z-10" style={{animationDelay:'1.5s'}}>

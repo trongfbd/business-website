@@ -1,7 +1,7 @@
 const REVIEWS = [
-  { name: 'Nguyễn Văn A', role: 'Giám đốc Công ty XYZ', avatar: 'N', content: 'Dịch vụ tuyệt vời, đội ngũ chuyên nghiệp và tận tình. Chúng tôi rất hài lòng với kết quả đạt được sau khi hợp tác.', stars: 5 },
-  { name: 'Trần Thị B', role: 'CEO Công ty ABC', avatar: 'T', content: 'Phản hồi nhanh, giải quyết vấn đề hiệu quả. Đây là đối tác chiến lược dài hạn mà chúng tôi tin tưởng.', stars: 5 },
-  { name: 'Lê Văn C', role: 'Chủ doanh nghiệp DEF', avatar: 'L', content: 'Giá cả hợp lý, chất lượng vượt mong đợi. Tôi sẽ tiếp tục giới thiệu cho các đối tác của mình.', stars: 5 },
+  { name: 'Nguyễn Minh Khoa', avatar: 'K', content: 'Đội ngũ kỹ thuật tư vấn rất nhiệt tình, lắp đặt nhanh gọn và đúng hẹn. Hệ thống báo cháy hoạt động tốt, mình rất hài lòng.', stars: 5 },
+  { name: 'Trần Thị Hương', avatar: 'H', content: 'Thiết bị chính hãng, có tem kiểm định rõ ràng. Gọi là có người xuống tư vấn ngay, không phải chờ lâu. Sẽ tiếp tục sử dụng dịch vụ.', stars: 5 },
+  { name: 'Lê Thanh Phong', avatar: 'P', content: 'Báo giá minh bạch, không phát sinh chi phí ẩn. Thi công xong còn hướng dẫn cách sử dụng và bảo quản thiết bị rất chu đáo.', stars: 5 },
 ]
 
 export default function Testimonials() {
@@ -21,10 +21,7 @@ export default function Testimonials() {
               <p className="text-gray-300 leading-relaxed mb-6 italic">&ldquo;{r.content}&rdquo;</p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-brand-primary rounded-full flex items-center justify-center text-white font-bold">{r.avatar}</div>
-                <div>
-                  <div className="text-white font-semibold">{r.name}</div>
-                  <div className="text-gray-400 text-sm">{r.role}</div>
-                </div>
+                <div className="text-white font-semibold">{r.name}</div>
               </div>
             </div>
           ))}

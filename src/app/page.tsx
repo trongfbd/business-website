@@ -5,6 +5,8 @@ import { DesktopContactHub, MobileContactBar } from '@/components/contact/Omnich
 import Hero from '@/components/sections/Hero'
 import ProductSlider from '@/components/sections/ProductSlider'
 import About from '@/components/sections/About'
+import BlogPreview from '@/components/sections/BlogPreview'
+import FAQ from '@/components/sections/FAQ'
 import Testimonials from '@/components/sections/Testimonials'
 import Contact from '@/components/sections/Contact'
 import CTA from '@/components/sections/CTA'
@@ -25,6 +27,8 @@ export default async function HomePage() {
         <Hero config={config} />
         <About />
         <ProductSlider />
+        <BlogPreview />
+        <FAQ />
         <Testimonials />
         <CTA config={config} />
         <Contact config={config} />
