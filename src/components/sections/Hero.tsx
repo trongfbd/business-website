@@ -24,7 +24,7 @@ export default function Hero({ config }: { config: SiteConfig }) {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-red-800/30 rounded-full blur-3xl" />
         {/* Large logo watermark */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/3 w-[560px] h-[560px] opacity-[0.07]">
+        <div className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[480px] h-[480px] opacity-[0.10]">
           <img src="/images/logo.png" alt="" className="w-full h-full object-contain" />
         </div>
       </div>
@@ -43,13 +43,10 @@ export default function Hero({ config }: { config: SiteConfig }) {
               </div>
 
               {/* H1 */}
-              <h1 className="font-display font-black uppercase leading-none mb-4">
-                <span className="text-white text-5xl md:text-6xl lg:text-7xl block">Giải Pháp PCCC</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-5xl md:text-6xl lg:text-7xl block">
-                  Cho Công Trình
-                </span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-5xl md:text-6xl lg:text-7xl block">
-                  An Toàn
+              <h1 className="font-display font-black uppercase leading-[1.05] mb-4">
+                <span className="text-white text-5xl md:text-6xl block">Giải Pháp PCCC</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-5xl md:text-6xl block">
+                  Cho Công Trình An Toàn
                 </span>
               </h1>
 
@@ -170,21 +167,21 @@ export default function Hero({ config }: { config: SiteConfig }) {
         </div>
       </div>
 
-      {/* ── Bottom feature bar ── */}
-      <div className="relative z-10 bg-white border-t border-gray-100 shadow-lg">
+      {/* ── Bottom feature bar — nền đỏ tối ── */}
+      <div className="relative z-10 bg-black/25 border-t border-white/10 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {FEATURES.map((f, i) => (
               <div
                 key={f.title}
-                className={`flex items-center gap-4 py-5 px-6 ${i < 3 ? 'border-r border-gray-100' : ''}`}
+                className={`flex items-center gap-4 py-5 px-6 ${i < 3 ? 'border-r border-white/10' : ''}`}
               >
-                <div className="w-11 h-11 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-brand-primary flex-shrink-0">
+                <div className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-brand-accent flex-shrink-0">
                   {f.icon}
                 </div>
                 <div>
-                  <div className="text-brand-dark font-bold text-sm">{f.title}</div>
-                  <div className="text-gray-400 text-xs">{f.sub}</div>
+                  <div className="text-white font-bold text-sm">{f.title}</div>
+                  <div className="text-red-200/70 text-xs">{f.sub}</div>
                 </div>
               </div>
             ))}
