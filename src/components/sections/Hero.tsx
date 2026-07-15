@@ -21,14 +21,13 @@ export default function Hero({ config }: { config: SiteConfig }) {
               Dịch vụ uy tín hàng đầu
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6">
-              Giải Pháp{' '}
+              An Toàn Bắt Đầu Từ{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300">
-                Chuyên Nghiệp
-              </span>{' '}
-              Cho Doanh Nghiệp
+                Giải Pháp Đúng
+              </span>
             </h1>
-            <p className="text-lg text-red-100 mb-8 leading-relaxed max-w-xl">
-              {config.description} Hơn 10 năm kinh nghiệm, cam kết chất lượng, giá cả cạnh tranh.
+            <p className="text-lg text-red-100 mb-8 leading-relaxed max-w-xl text-justify">
+              {config.description}
             </p>
 
             {/* Stats */}

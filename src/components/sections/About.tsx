@@ -14,9 +14,9 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <span className="text-brand-primary font-semibold uppercase tracking-widest text-sm">Về Chúng Tôi</span>
-            <h2 className="text-4xl font-display font-bold text-brand-dark mt-2 mb-6">Đối Tác Tin Cậy Của Mọi Doanh Nghiệp</h2>
-            <p className="text-gray-600 leading-relaxed mb-6">Chúng tôi tự hào là đơn vị hàng đầu trong lĩnh vực với hơn 10 năm kinh nghiệm phục vụ hàng trăm doanh nghiệp lớn nhỏ trên toàn quốc.</p>
-            <p className="text-gray-600 leading-relaxed mb-8">Đội ngũ chuyên gia giàu kinh nghiệm của chúng tôi luôn sẵn sàng đồng hành, tư vấn và triển khai giải pháp tối ưu nhất cho từng khách hàng.</p>
+            <h2 className="text-4xl font-display font-bold text-brand-dark mt-2 mb-6">Giải Pháp PCCC Toàn Diện Cho Mọi Công Trình</h2>
+            <p className="text-gray-600 leading-relaxed mb-6 text-justify">Từ nhà máy, kho xưởng đến trung tâm thương mại và trạm xăng dầu, Vĩnh Mai cung cấp giải pháp phòng cháy chữa cháy đáp ứng các tiêu chuẩn kỹ thuật, đảm bảo an toàn và tối ưu chi phí đầu tư.</p>
+            <p className="text-gray-600 leading-relaxed mb-8 text-justify">Đồng hành cùng doanh nghiệp bằng năng lực kỹ thuật, sản phẩm chính hãng và dịch vụ chuyên nghiệp.</p>
             <div className="grid grid-cols-2 gap-4">
               {STATS.map((stat) => (
                 <div key={stat.label} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">

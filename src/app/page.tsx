@@ -4,7 +4,7 @@ import Footer from '@/components/layout/Footer'
 import { DesktopContactHub, MobileContactBar } from '@/components/contact/OmnichannelHub'
 import Hero from '@/components/sections/Hero'
 import FeaturedProducts from '@/components/sections/FeaturedProducts'
-import Services from '@/components/sections/Services'
+import ProductSlider from '@/components/sections/ProductSlider'
 import About from '@/components/sections/About'
 import Testimonials from '@/components/sections/Testimonials'
 import Contact from '@/components/sections/Contact'
@@ -24,7 +24,7 @@ export default async function HomePage() {
         <Hero config={config} />
         <FeaturedProducts />
         <About />
-        <Services config={config} />
+        <ProductSlider />
         <Testimonials />
         <CTA config={config} />
         <Contact config={config} />
