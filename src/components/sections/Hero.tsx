@@ -19,14 +19,13 @@ const FEATURES = [
 
 export default function Hero({ config }: { config: SiteConfig }) {
   return (
-    <section className="relative flex flex-col bg-gradient-to-br from-brand-dark via-red-950 to-brand-primary overflow-hidden pt-20">
-      {/* Background decorations */}
+    <section className="relative flex flex-col overflow-hidden pt-20"
+      style={{ background: 'linear-gradient(135deg, #1a0000 0%, #3d0000 40%, #7b0000 100%)' }}
+    >
+      {/* Background image */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-red-800/30 rounded-full blur-3xl" />
-        {/* Large logo watermark */}
-        <div className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[480px] h-[480px] opacity-[0.10]">
-          <img src="/images/logo.png" alt="" className="w-full h-full object-contain" />
-        </div>
+        <img src="/images/hero-bg.jpg" alt="" className="w-full h-full object-cover opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
       </div>
 
       {/* Main content */}
@@ -37,15 +36,15 @@ export default function Hero({ config }: { config: SiteConfig }) {
             {/* ── Left: Text ── */}
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 border border-white/25 bg-white/8 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+              <div className="inline-flex items-center gap-2 border border-red-400/50 bg-red-700/40 text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
                 <Shield className="w-4 h-4 text-brand-accent flex-shrink-0" />
                 Đơn vị PCCC uy tín hàng đầu
               </div>
 
               {/* H1 */}
               <h1 className="font-display font-black uppercase leading-[1.05] mb-4">
-                <span className="text-white text-5xl md:text-6xl block">Giải Pháp PCCC</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-5xl md:text-6xl block">
+                <span className="text-white text-4xl md:text-5xl block">Giải Pháp PCCC</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300 text-4xl md:text-5xl block">
                   Cho Công Trình An Toàn
                 </span>
               </h1>
@@ -59,7 +58,7 @@ export default function Hero({ config }: { config: SiteConfig }) {
               </div>
 
               {/* Service pills */}
-              <div className="inline-flex items-center border border-white/25 rounded-full px-4 py-2 mb-6">
+              <div className="inline-flex items-center border-2 border-red-500/70 rounded-full px-4 py-2 mb-6">
                 {SERVICES.map((s, i) => (
                   <span key={s} className="flex items-center text-white/90 text-xs font-bold uppercase tracking-widest">
                     <span className="text-brand-accent mx-2">•</span>
