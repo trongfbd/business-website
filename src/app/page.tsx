@@ -11,6 +11,8 @@ import Contact from '@/components/sections/Contact'
 import CTA from '@/components/sections/CTA'
 import { OrganizationSchema, LocalBusinessSchema, WebsiteSchema } from '@/components/ui/JsonLd'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const config = await getSiteConfig()
   const baseUrl = getBaseUrl()
