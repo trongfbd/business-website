@@ -1,14 +1,10 @@
 node_modules/
 .next/
 .env.local
-database/site.db
+# DB được commit để backup — WAL files là temp, không cần commit
+database/site.db-shm
+database/site.db-wal
 public/uploads/*
 !public/uploads/.gitkeep
 *.log
-.next/cache
-.next/cache
-.next/cache
-.next/cache
-.next/cache
-.next/cache
 .next/cache

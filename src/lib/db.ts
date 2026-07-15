@@ -1,5 +1,7 @@
 import Database from 'better-sqlite3'
 import path from 'path'
+import bcrypt from 'bcryptjs'
+import fs from 'fs'
 
 const DB_PATH = path.join(process.cwd(), 'database', 'site.db')
 
@@ -7,10 +9,15 @@ let db: Database.Database
 
 export function getDb(): Database.Database {
   if (!db) {
+    // Đảm bảo thư mục database tồn tại (cần khi deploy fresh)
+    const dbDir = path.dirname(DB_PATH)
+    if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true })
+
     db = new Database(DB_PATH)
     db.pragma('journal_mode = WAL')
     db.pragma('foreign_keys = ON')
     initSchema(db)
+    ensureAdminUser(db)
   }
   return db
 }
@@ -79,4 +86,13 @@ function initSchema(database: Database.Database) {
     CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
     CREATE INDEX IF NOT EXISTS idx_analytics_event ON analytics(event_type);
   `)
+}
+
+// Tự động tạo admin user nếu chưa có — đảm bảo luôn login được sau deploy fresh
+function ensureAdminUser(database: Database.Database) {
+  const existing = database.prepare('SELECT id FROM users WHERE username = ?').get('admin')
+  if (!existing) {
+    const hash = bcrypt.hashSync('Admin@123456', 12)
+    database.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)').run('admin', hash, 'admin')
+  }
 }
