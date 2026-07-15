@@ -18,14 +18,15 @@ export default function Hero({ config }: { config: SiteConfig }) {
           <div>
             <div className="inline-flex items-center gap-2 bg-brand-accent/20 border border-brand-accent/30 text-brand-accent px-4 py-2 rounded-full text-sm font-semibold mb-6">
               <span className="w-2 h-2 bg-brand-accent rounded-full animate-pulse" />
-              {config.slogan}
+              Dịch vụ uy tín hàng đầu
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-3">
               An Toàn Bắt Đầu Từ{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-300">
                 Giải Pháp Đúng
               </span>
             </h1>
+            <p className="text-red-200/80 italic text-base mb-6">{config.slogan}</p>
             <p className="text-lg text-red-100 mb-8 leading-relaxed max-w-xl text-justify">
               {config.description}
             </p>
@@ -81,11 +82,11 @@ export default function Hero({ config }: { config: SiteConfig }) {
                 </div>
               </div>
               {/* Main image */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-3 border border-white/20 shadow-2xl">
+              <div className="bg-white rounded-3xl p-6 shadow-2xl mt-6 mb-6">
                 <img
                   src="/images/hero-pccc.jpg"
                   alt="Thiết bị phòng cháy chữa cháy chuyên nghiệp"
-                  className="w-full aspect-square object-cover rounded-2xl"
+                  className="w-full aspect-square object-contain rounded-xl"
                 />
               </div>
               {/* Floating card 2 */}
