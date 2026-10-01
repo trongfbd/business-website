@@ -1,15 +1,27 @@
-const Database = require('better-sqlite3')
+const { createClient } = require('@libsql/client')
 const bcrypt = require('bcryptjs')
 const path = require('path')
 const fs = require('fs')
 
+// Dùng Turso nếu có TURSO_DATABASE_URL (đọc từ .env.local), không thì file SQLite local
 const dbDir = path.join(__dirname, '..', 'database')
-if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true })
+if (!process.env.TURSO_DATABASE_URL && !fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true })
 
-const db = new Database(path.join(dbDir, 'site.db'))
-db.pragma('journal_mode = WAL')
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL || 'file:database/site.db',
+  authToken: process.env.TURSO_AUTH_TOKEN,
+})
 
-db.exec(`
+// Shim giữ API kiểu better-sqlite3 (async)
+const db = {
+  prepare: (sql) => ({
+    get: async (...args) => (await client.execute({ sql, args: args.length === 1 && typeof args[0] === 'object' && args[0] ? args[0] : args })).rows[0],
+    run: async (...args) => client.execute({ sql, args: args.length === 1 && typeof args[0] === 'object' && args[0] ? args[0] : args }),
+  }),
+}
+
+async function main() {
+await client.executeMultiple(`
   CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -74,10 +86,10 @@ db.exec(`
 `)
 
 // Create default admin
-const existing = db.prepare('SELECT id FROM users WHERE username = ?').get('admin')
+const existing = await db.prepare('SELECT id FROM users WHERE username = ?').get('admin')
 if (!existing) {
   const hash = bcrypt.hashSync('Admin@123456', 12)
-  db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)').run('admin', hash, 'admin')
+  await db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)').run('admin', hash, 'admin')
   console.log('✅ Admin user created: admin / Admin@123456')
 } else {
   console.log('ℹ️ Admin user already exists')
@@ -85,9 +97,9 @@ if (!existing) {
 
 // Sample post
 const sampleSlug = 'bai-viet-dau-tien-cua-chung-toi'
-const samplePost = db.prepare('SELECT id FROM posts WHERE slug = ?').get(sampleSlug)
+const samplePost = await db.prepare('SELECT id FROM posts WHERE slug = ?').get(sampleSlug)
 if (!samplePost) {
-  db.prepare(`
+  await db.prepare(`
     INSERT INTO posts (title, slug, meta_title, meta_description, short_description, content, category, status)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
@@ -204,13 +216,19 @@ const insertProduct = db.prepare(`
 
 let createdCount = 0
 for (const p of sampleProducts) {
-  const exists = db.prepare('SELECT id FROM products WHERE slug = ?').get(p.slug)
+  const exists = await db.prepare('SELECT id FROM products WHERE slug = ?').get(p.slug)
   if (!exists) {
-    insertProduct.run(p)
+    await insertProduct.run(p)
     createdCount++
   }
 }
 if (createdCount > 0) console.log(`✅ ${createdCount} sample products created`)
 
 console.log('✅ Database initialized successfully!')
-db.close()
+client.close()
+}
+
+main().catch((e) => {
+  console.error(e)
+  process.exit(1)
+})

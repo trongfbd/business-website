@@ -8,7 +8,7 @@ export default async function FeaturedProducts() {
   const db = getDb()
 
   // Ưu tiên sản phẩm nổi bật, nếu chưa đủ 6 thì bổ sung sản phẩm mới nhất
-  const featured = db.prepare(
+  const featured = await db.prepare(
     "SELECT * FROM products WHERE status = 'published' AND featured = 1 ORDER BY sort_order ASC, created_at DESC LIMIT 6"
   ).all() as Product[]
 
@@ -16,7 +16,7 @@ export default async function FeaturedProducts() {
   if (products.length < 6) {
     const excludeIds = products.map((p) => p.id)
     const placeholders = excludeIds.length ? excludeIds.map(() => '?').join(',') : '0'
-    const more = db.prepare(
+    const more = await db.prepare(
       `SELECT * FROM products WHERE status = 'published' AND id NOT IN (${placeholders}) ORDER BY created_at DESC LIMIT ?`
     ).all(...excludeIds, 6 - products.length) as Product[]
     products = [...products, ...more]

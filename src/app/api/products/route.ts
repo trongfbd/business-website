@@ -22,14 +22,14 @@ export async function GET(req: NextRequest) {
   query += ' ORDER BY sort_order ASC, created_at DESC LIMIT ? OFFSET ?'
   params.push(limit, offset)
 
-  const products = db.prepare(query).all(...params)
+  const products = await db.prepare(query).all(...params)
 
   let countQuery = 'SELECT COUNT(*) as count FROM products WHERE 1=1'
   const countParams: (string | number)[] = []
   if (status) { countQuery += ' AND status = ?'; countParams.push(status) }
   if (featured) { countQuery += ' AND featured = ?'; countParams.push(featured === 'true' ? 1 : 0) }
   if (category) { countQuery += ' AND category = ?'; countParams.push(category) }
-  const total = db.prepare(countQuery).get(...countParams) as { count: number }
+  const total = await db.prepare(countQuery).get(...countParams) as { count: number }
 
   return NextResponse.json({ products, total: total.count })
 }
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const slug = slugify(body.name, { lower: true, locale: 'vi', strict: true }) + '-' + Date.now().toString(36)
 
-  const result = db.prepare(`
+  const result = await db.prepare(`
     INSERT INTO products (name, slug, meta_title, meta_description, keywords, images, short_description, description, category, price, status, featured, sort_order)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(

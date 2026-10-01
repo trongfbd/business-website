@@ -11,7 +11,7 @@ import { ArticleSchema, FAQSchema, BreadcrumbSchema } from '@/components/ui/Json
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const db = getDb()
-  const post = db.prepare('SELECT * FROM posts WHERE slug = ? AND status = ?').get(params.slug, 'published') as Post | undefined
+  const post = await db.prepare('SELECT * FROM posts WHERE slug = ? AND status = ?').get(params.slug, 'published') as Post | undefined
   if (!post) return {}
   return {
     title: post.metaTitle || post.title,
@@ -24,15 +24,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const config = await getSiteConfig()
   const db = getDb()
-  const post = db.prepare('SELECT * FROM posts WHERE slug = ? AND status = ?').get(params.slug, 'published') as Post | undefined
+  const post = await db.prepare('SELECT * FROM posts WHERE slug = ? AND status = ?').get(params.slug, 'published') as Post | undefined
   if (!post) notFound()
 
   // Increment view count
-  db.prepare('UPDATE posts SET view_count = view_count + 1 WHERE id = ?').run(post.id)
+  await db.prepare('UPDATE posts SET view_count = view_count + 1 WHERE id = ?').run(post.id)
 
   const htmlContent = marked(post.content || '')
   const faq = post.faq ? JSON.parse(post.faq) : []
-  const related = db.prepare('SELECT id, title, slug, thumbnail, created_at FROM posts WHERE status = ? AND id != ? AND category = ? LIMIT 3').all('published', post.id, post.category) as Partial<Post>[]
+  const related = await db.prepare('SELECT id, title, slug, thumbnail, created_at FROM posts WHERE status = ? AND id != ? AND category = ? LIMIT 3').all('published', post.id, post.category) as Partial<Post>[]
   const baseUrl = getBaseUrl()
 
   return (

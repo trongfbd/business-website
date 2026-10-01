@@ -26,15 +26,15 @@ export default async function ProductsPage({ searchParams }: { searchParams: { c
   if (searchParams.category) { query += ' AND category = ?'; params.push(searchParams.category) }
   query += ' ORDER BY sort_order ASC, created_at DESC LIMIT ? OFFSET ?'
 
-  const products = db.prepare(query).all(...params, PAGE_SIZE, offset) as Product[]
+  const products = await db.prepare(query).all(...params, PAGE_SIZE, offset) as Product[]
 
   let countQuery = 'SELECT COUNT(*) as count FROM products WHERE status = ?'
   const countParams: (string | number)[] = ['published']
   if (searchParams.category) { countQuery += ' AND category = ?'; countParams.push(searchParams.category) }
-  const totalCount = (db.prepare(countQuery).get(...countParams) as { count: number }).count
+  const totalCount = (await db.prepare(countQuery).get(...countParams) as { count: number }).count
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
 
-  const categories = db.prepare("SELECT DISTINCT category FROM products WHERE status = 'published' AND category IS NOT NULL AND category != ''").all() as { category: string }[]
+  const categories = await db.prepare("SELECT DISTINCT category FROM products WHERE status = 'published' AND category IS NOT NULL AND category != ''").all() as { category: string }[]
 
   return (
     <>

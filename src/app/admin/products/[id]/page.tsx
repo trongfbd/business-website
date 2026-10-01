@@ -8,7 +8,7 @@ export default async function EditProduct({ params }: { params: { id: string } }
   const session = await getSession()
   if (!session) redirect('/admin/login')
 
-  const found = getDb().prepare('SELECT * FROM products WHERE id = ?').get(params.id) as (Product & { id: number }) | undefined
+  const found = await getDb().prepare('SELECT * FROM products WHERE id = ?').get(params.id) as (Product & { id: number }) | undefined
   if (!found) redirect('/admin/products')
 
   return <ProductEditor product={found} isNew={false} />

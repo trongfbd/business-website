@@ -7,7 +7,7 @@ import { Post } from '@/types'
 export default async function AdminPosts() {
   const session = await getSession()
   if (!session) redirect('/admin/login')
-  const posts = getDb().prepare('SELECT id, title, slug, status, category, view_count, created_at FROM posts ORDER BY created_at DESC').all() as Pick<Post, 'id'|'title'|'slug'|'status'|'category'|'viewCount'|'createdAt'>[]
+  const posts = await getDb().prepare('SELECT id, title, slug, status, category, view_count, created_at FROM posts ORDER BY created_at DESC').all() as Pick<Post, 'id'|'title'|'slug'|'status'|'category'|'viewCount'|'createdAt'>[]
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm sticky top-0 z-10">

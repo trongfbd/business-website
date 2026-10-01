@@ -9,15 +9,15 @@ export default async function AdminDashboard() {
   if (!session) redirect('/admin/login')
 
   const db = getDb()
-  const total = (db.prepare('SELECT COUNT(*) as c FROM posts').get() as { c: number }).c
-  const published = (db.prepare("SELECT COUNT(*) as c FROM posts WHERE status='published'").get() as { c: number }).c
-  const draft = (db.prepare("SELECT COUNT(*) as c FROM posts WHERE status='draft'").get() as { c: number }).c
-  const totalViews = (db.prepare('SELECT SUM(view_count) as v FROM posts').get() as { v: number | null }).v || 0
-  const topPosts = db.prepare('SELECT title, slug, view_count FROM posts ORDER BY view_count DESC LIMIT 5').all() as { title: string; slug: string; view_count: number }[]
+  const total = (await db.prepare('SELECT COUNT(*) as c FROM posts').get() as { c: number }).c
+  const published = (await db.prepare("SELECT COUNT(*) as c FROM posts WHERE status='published'").get() as { c: number }).c
+  const draft = (await db.prepare("SELECT COUNT(*) as c FROM posts WHERE status='draft'").get() as { c: number }).c
+  const totalViews = (await db.prepare('SELECT SUM(view_count) as v FROM posts').get() as { v: number | null }).v || 0
+  const topPosts = await db.prepare('SELECT title, slug, view_count FROM posts ORDER BY view_count DESC LIMIT 5').all() as { title: string; slug: string; view_count: number }[]
 
-  const totalProducts = (db.prepare('SELECT COUNT(*) as c FROM products').get() as { c: number }).c
-  const publishedProducts = (db.prepare("SELECT COUNT(*) as c FROM products WHERE status='published'").get() as { c: number }).c
-  const featuredProducts = (db.prepare("SELECT COUNT(*) as c FROM products WHERE featured=1").get() as { c: number }).c
+  const totalProducts = (await db.prepare('SELECT COUNT(*) as c FROM products').get() as { c: number }).c
+  const publishedProducts = (await db.prepare("SELECT COUNT(*) as c FROM products WHERE status='published'").get() as { c: number }).c
+  const featuredProducts = (await db.prepare("SELECT COUNT(*) as c FROM products WHERE featured=1").get() as { c: number }).c
 
   return (
     <div className="min-h-screen bg-gray-50">

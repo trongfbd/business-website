@@ -16,8 +16,8 @@ export async function GET(req: NextRequest) {
   query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?'
   params.push(limit, offset)
 
-  const posts = db.prepare(query).all(...params)
-  const total = db.prepare(`SELECT COUNT(*) as count FROM posts${status ? ' WHERE status = ?' : ''}`).get(...(status ? [status] : [])) as { count: number }
+  const posts = await db.prepare(query).all(...params)
+  const total = await db.prepare(`SELECT COUNT(*) as count FROM posts${status ? ' WHERE status = ?' : ''}`).get(...(status ? [status] : [])) as { count: number }
   return NextResponse.json({ posts, total: total.count })
 }
 
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   const slug = slugify(body.title, { lower: true, locale: 'vi', strict: true }) + '-' + Date.now().toString(36)
 
-  const result = db.prepare(`
+  const result = await db.prepare(`
     INSERT INTO posts (title, slug, meta_title, meta_description, keywords, thumbnail, short_description, content, category, tags, faq, author, status)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(body.title, slug, body.metaTitle, body.metaDescription, body.keywords, body.thumbnail, body.shortDescription, body.content, body.category, JSON.stringify(body.tags || []), JSON.stringify(body.faq || []), body.author || session.username, body.status || 'draft')

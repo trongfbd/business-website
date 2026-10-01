@@ -12,7 +12,7 @@ export default async function EditPost({ params }: { params: { id: string } }) {
   let post: Partial<Post> = { status: 'draft', author: session.username }
 
   if (!isNew) {
-    const found = getDb().prepare('SELECT * FROM posts WHERE id = ?').get(params.id) as Post | undefined
+    const found = await getDb().prepare('SELECT * FROM posts WHERE id = ?').get(params.id) as Post | undefined
     if (!found) redirect('/admin/posts')
     post = found
   }

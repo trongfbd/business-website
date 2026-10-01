@@ -26,7 +26,7 @@ const PLACEHOLDERS = [
 
 export default async function BlogPreview() {
   const db = getDb()
-  const posts = db.prepare(
+  const posts = await db.prepare(
     `SELECT id, title, slug, thumbnail, short_description, category, created_at
      FROM posts WHERE status = 'published' ORDER BY created_at DESC LIMIT 3`
   ).all() as Post[]

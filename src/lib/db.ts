@@ -1,29 +1,66 @@
-import Database from 'better-sqlite3'
-import path from 'path'
+import { createClient, type Client, type InValue } from '@libsql/client'
 import bcrypt from 'bcryptjs'
-import fs from 'fs'
 
-const DB_PATH = path.join(process.cwd(), 'database', 'site.db')
+// Turso (libSQL) khi có TURSO_DATABASE_URL — dùng cho Vercel/serverless.
+// Không có thì dùng file SQLite local như trước.
+const DB_URL = process.env.TURSO_DATABASE_URL || 'file:database/site.db'
 
-let db: Database.Database
+let client: Client
+let ready: Promise<void> | null = null
 
-export function getDb(): Database.Database {
-  if (!db) {
-    // Đảm bảo thư mục database tồn tại (cần khi deploy fresh)
-    const dbDir = path.dirname(DB_PATH)
-    if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true })
-
-    db = new Database(DB_PATH)
-    db.pragma('journal_mode = WAL')
-    db.pragma('foreign_keys = ON')
-    initSchema(db)
-    ensureAdminUser(db)
+function getClient(): Client {
+  if (!client) {
+    client = createClient({ url: DB_URL, authToken: process.env.TURSO_AUTH_TOKEN })
   }
-  return db
+  if (!ready) {
+    ready = initSchema(client).then(() => ensureAdminUser(client))
+    ready.catch(() => { ready = null })
+  }
+  return client
 }
 
-function initSchema(database: Database.Database) {
-  database.exec(`
+async function execute(sql: string, args: unknown[]) {
+  const c = getClient()
+  await ready
+  return c.execute({ sql, args: args as InValue[] })
+}
+
+// libSQL trả về Row (array-like) — chuyển sang object thường để truyền sang Client Component
+function toObject(row: Record<string, unknown>, columns: string[]) {
+  const obj: Record<string, unknown> = {}
+  for (const col of columns) obj[col] = row[col]
+  return obj
+}
+
+// Giữ API giống better-sqlite3 (prepare → get/all/run) nhưng async
+export function getDb() {
+  return {
+    prepare(sql: string) {
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async get(...args: unknown[]): Promise<any> {
+          const rs = await execute(sql, args)
+          return rs.rows[0] ? toObject(rs.rows[0], rs.columns) : undefined
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async all(...args: unknown[]): Promise<any[]> {
+          const rs = await execute(sql, args)
+          return rs.rows.map((r) => toObject(r, rs.columns))
+        },
+        async run(...args: unknown[]) {
+          const rs = await execute(sql, args)
+          return {
+            changes: rs.rowsAffected,
+            lastInsertRowid: rs.lastInsertRowid !== undefined ? Number(rs.lastInsertRowid) : undefined,
+          }
+        },
+      }
+    },
+  }
+}
+
+async function initSchema(database: Client) {
+  await database.executeMultiple(`
     CREATE TABLE IF NOT EXISTS posts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
@@ -89,10 +126,13 @@ function initSchema(database: Database.Database) {
 }
 
 // Tự động tạo admin user nếu chưa có — đảm bảo luôn login được sau deploy fresh
-function ensureAdminUser(database: Database.Database) {
-  const existing = database.prepare('SELECT id FROM users WHERE username = ?').get('admin')
-  if (!existing) {
-    const hash = bcrypt.hashSync('Admin@123456', 12)
-    database.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)').run('admin', hash, 'admin')
+async function ensureAdminUser(database: Client) {
+  const existing = await database.execute({ sql: 'SELECT id FROM users WHERE username = ?', args: ['admin'] })
+  if (existing.rows.length === 0) {
+    const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'Admin@123456', 12)
+    await database.execute({
+      sql: 'INSERT INTO users (username, password, role) VALUES (?, ?, ?)',
+      args: ['admin', hash, 'admin'],
+    })
   }
 }

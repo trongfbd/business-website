@@ -24,9 +24,9 @@ export default async function BlogPage({ searchParams }: { searchParams: { categ
   if (searchParams.q) { query += ' AND (title LIKE ? OR short_description LIKE ?)'; params.push(`%${searchParams.q}%`, `%${searchParams.q}%`) }
 
   query += ' ORDER BY created_at DESC LIMIT 20'
-  const posts = db.prepare(query).all(...params) as Post[]
+  const posts = await db.prepare(query).all(...params) as Post[]
 
-  const categories = db.prepare('SELECT DISTINCT category FROM posts WHERE status = ? AND category IS NOT NULL').all('published') as { category: string }[]
+  const categories = await db.prepare('SELECT DISTINCT category FROM posts WHERE status = ? AND category IS NOT NULL').all('published') as { category: string }[]
 
   return (
     <>

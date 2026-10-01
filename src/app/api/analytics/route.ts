@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
   const { eventType, page, metadata } = await req.json()
   const db = getDb()
-  db.prepare('INSERT INTO analytics (event_type, page, metadata, ip, user_agent) VALUES (?, ?, ?, ?, ?)').run(
+  await db.prepare('INSERT INTO analytics (event_type, page, metadata, ip, user_agent) VALUES (?, ?, ?, ?, ?)').run(
     eventType, page, JSON.stringify(metadata || {}), ip, req.headers.get('user-agent')
   )
   return NextResponse.json({ ok: true })

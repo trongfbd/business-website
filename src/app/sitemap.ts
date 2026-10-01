@@ -9,10 +9,12 @@ function toDate(raw: string): Date {
   return isNaN(d.getTime()) ? new Date() : d
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const db = getDb()
-  const posts = db.prepare('SELECT slug, updated_at as updatedAt FROM posts WHERE status = ?').all('published') as { slug: string; updatedAt: string }[]
-  const products = db.prepare('SELECT slug, updated_at as updatedAt FROM products WHERE status = ?').all('published') as { slug: string; updatedAt: string }[]
+  const posts = await db.prepare('SELECT slug, updated_at as updatedAt FROM posts WHERE status = ?').all('published') as { slug: string; updatedAt: string }[]
+  const products = await db.prepare('SELECT slug, updated_at as updatedAt FROM products WHERE status = ?').all('published') as { slug: string; updatedAt: string }[]
 
   return [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },

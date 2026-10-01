@@ -8,7 +8,7 @@ export default async function AdminProducts() {
   const session = await getSession()
   if (!session) redirect('/admin/login')
 
-  const products = getDb().prepare('SELECT * FROM products ORDER BY sort_order ASC, created_at DESC').all() as (Product & { view_count: number })[]
+  const products = await getDb().prepare('SELECT * FROM products ORDER BY sort_order ASC, created_at DESC').all() as (Product & { view_count: number })[]
 
   return (
     <div className="min-h-screen bg-gray-50">

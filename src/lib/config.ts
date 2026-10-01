@@ -1,19 +1,10 @@
 import { SiteConfig } from '@/types'
-import fs from 'fs'
-import path from 'path'
+import siteConfig from '../../public/config.json'
 
-let cachedConfig: SiteConfig | null = null
-
+// Import trực tiếp để config được bundle vào serverless function (Vercel không đọc được
+// public/ bằng fs lúc runtime). Sửa config.json cần build/deploy lại.
 export async function getSiteConfig(): Promise<SiteConfig> {
-  if (cachedConfig) return cachedConfig
-  try {
-    const filePath = path.join(process.cwd(), 'public', 'config.json')
-    const raw = fs.readFileSync(filePath, 'utf-8')
-    cachedConfig = JSON.parse(raw) as SiteConfig
-    return cachedConfig
-  } catch {
-    return getDefaultConfig()
-  }
+  return { ...getDefaultConfig(), ...siteConfig } as SiteConfig
 }
 
 // Đảm bảo BASE_URL luôn có protocol (https://)

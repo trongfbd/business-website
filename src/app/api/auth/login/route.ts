@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   const { username, password } = await req.json()
   if (!username || !password) return NextResponse.json({ error: 'Vui lòng nhập đầy đủ thông tin' }, { status: 400 })
   const db = getDb()
-  const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username) as { id: number; username: string; password: string; role: string } | undefined
+  const user = await db.prepare('SELECT * FROM users WHERE username = ?').get(username) as { id: number; username: string; password: string; role: string } | undefined
   if (!user || !(await verifyPassword(password, user.password))) {
     return NextResponse.json({ error: 'Tên đăng nhập hoặc mật khẩu không đúng' }, { status: 401 })
   }

@@ -20,7 +20,7 @@ function formatPrice(price: number | null): string {
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const db = getDb()
-  const product = db.prepare('SELECT * FROM products WHERE slug = ? AND status = ?').get(params.slug, 'published') as Product | undefined
+  const product = await db.prepare('SELECT * FROM products WHERE slug = ? AND status = ?').get(params.slug, 'published') as Product | undefined
   if (!product) return {}
   return {
     title: product.metaTitle || product.name,
@@ -37,16 +37,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
   const config = await getSiteConfig()
   const db = getDb()
-  const product = db.prepare('SELECT * FROM products WHERE slug = ? AND status = ?').get(params.slug, 'published') as Product | undefined
+  const product = await db.prepare('SELECT * FROM products WHERE slug = ? AND status = ?').get(params.slug, 'published') as Product | undefined
   if (!product) notFound()
 
-  db.prepare('UPDATE products SET view_count = view_count + 1 WHERE id = ?').run(product.id)
+  await db.prepare('UPDATE products SET view_count = view_count + 1 WHERE id = ?').run(product.id)
 
   const images: string[] = (() => { try { return JSON.parse(product.images || '[]') } catch { return [] } })()
   const htmlDescription = marked(product.description || '')
   const baseUrl = getBaseUrl()
 
-  const related = db.prepare('SELECT * FROM products WHERE status = ? AND id != ? AND category = ? ORDER BY sort_order ASC LIMIT 4').all('published', product.id, product.category) as Product[]
+  const related = await db.prepare('SELECT * FROM products WHERE status = ? AND id != ? AND category = ? ORDER BY sort_order ASC LIMIT 4').all('published', product.id, product.category) as Product[]
 
   return (
     <>

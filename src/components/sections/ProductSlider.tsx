@@ -6,7 +6,7 @@ import ProductSliderClient from './ProductSliderClient'
 
 export default async function ProductSlider() {
   const db = getDb()
-  const products = db.prepare(
+  const products = await db.prepare(
     "SELECT * FROM products WHERE status = 'published' ORDER BY featured DESC, sort_order ASC, created_at DESC LIMIT 12"
   ).all() as Product[]
 
