@@ -10,7 +10,13 @@ let ready: Promise<void> | null = null
 
 function getClient(): Client {
   if (!client) {
-    client = createClient({ url: DB_URL, authToken: process.env.TURSO_AUTH_TOKEN })
+    client = createClient({
+      url: DB_URL,
+      authToken: process.env.TURSO_AUTH_TOKEN,
+      // libSQL gọi Turso qua fetch — Next.js 14 mặc định cache fetch (Data Cache)
+      // khiến query trả dữ liệu cũ. Tắt cache để admin sửa là thấy ngay.
+      fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, { ...init, cache: 'no-store' }),
+    })
   }
   if (!ready) {
     ready = initSchema(client).then(() => ensureAdminUser(client))
