@@ -88,9 +88,9 @@ await client.executeMultiple(`
 // Create default admin
 const existing = await db.prepare('SELECT id FROM users WHERE username = ?').get('admin')
 if (!existing) {
-  const hash = bcrypt.hashSync('Admin@123456', 12)
+  const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'Admin@123456', 12)
   await db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)').run('admin', hash, 'admin')
-  console.log('✅ Admin user created: admin / Admin@123456')
+  console.log('✅ Admin user created: admin' + (process.env.ADMIN_PASSWORD ? ' (mật khẩu từ ADMIN_PASSWORD)' : ' / Admin@123456'))
 } else {
   console.log('ℹ️ Admin user already exists')
 }
